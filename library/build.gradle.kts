@@ -1,6 +1,3 @@
-import java.io.FileInputStream
-import java.io.InputStreamReader
-import java.util.Properties
 
 plugins {
     id("com.android.library")
@@ -9,13 +6,10 @@ plugins {
 
 val versionName = "3.0.14"
 
-
 android {
     compileSdk = 31
-
     defaultConfig {
         minSdk = 14
-
         consumerProguardFiles("proguard-rules.pro")
     }
 
@@ -53,10 +47,8 @@ android {
 
 
 dependencies {
-    implementation("androidx.annotation:annotation:1.5.0")
-
-    implementation("androidx.recyclerview:recyclerview:1.2.1")
-
+    implementation("androidx.annotation:annotation:1.6.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.0")
     implementation("androidx.databinding:databinding-runtime:8.0.0")
 }
 
