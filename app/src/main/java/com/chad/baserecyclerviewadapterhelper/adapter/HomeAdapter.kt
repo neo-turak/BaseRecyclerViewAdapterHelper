@@ -8,13 +8,13 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 /**
  * https://github.com/CymChad/BaseRecyclerViewAdapterHelper
  */
-class HomeAdapter(data: MutableList<HomeEntity>) :
-        BaseSectionQuickAdapter<HomeEntity, BaseViewHolder>(R.layout.def_section_head, R.layout.home_item_view, data) {
+class HomeAdapter(mItems: MutableList<HomeEntity>) :
+        BaseSectionQuickAdapter<HomeEntity, BaseViewHolder>(R.layout.def_section_head, R.layout.home_item_view, mItems) {
 
-    override fun convert(helper: BaseViewHolder, item: HomeEntity) {
+    override fun convert(holder: BaseViewHolder, item: HomeEntity) {
 
-        helper.setText(R.id.text, item.name)
-        helper.setImageResource(R.id.icon, item.imageResource)
+        holder.setText(R.id.text, item.name)
+        holder.setImageResource(R.id.icon, item.imageResource)
     }
 
     override fun convertHeader(helper: BaseViewHolder, item: HomeEntity) {

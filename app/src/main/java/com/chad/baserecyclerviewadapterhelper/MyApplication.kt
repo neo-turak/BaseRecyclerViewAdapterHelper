@@ -12,10 +12,10 @@
 **------------------------------------------------------------------------------
 ********************************End of Head************************************\
 */
-package com.chad.baserecyclerviewadapterhelper;
+package com.chad.baserecyclerviewadapterhelper
 
-import android.app.Application;
-import com.chad.baserecyclerviewadapterhelper.utils.Utils;
+import android.app.Application
+import com.chad.baserecyclerviewadapterhelper.utils.Utils.Companion.init
 
 /**
  * 文 件 名: MyApplication
@@ -25,18 +25,15 @@ import com.chad.baserecyclerviewadapterhelper.utils.Utils;
  * 修改时间：
  * 修改备注：
  */
-public class MyApplication extends Application {
-    private static MyApplication appContext;
-
-    public static MyApplication getInstance() {
-        return appContext;
+class MyApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        instance = this
+        init(this)
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        appContext = this;
-        Utils.init(this);
-
+    companion object {
+        var instance: MyApplication? = null
+            private set
     }
 }

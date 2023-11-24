@@ -1,174 +1,151 @@
-package com.chad.baserecyclerviewadapterhelper.utils;
+package com.chad.baserecyclerviewadapterhelper.utils
 
-import android.graphics.Bitmap;
-import android.graphics.BlurMaskFilter;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.text.Layout.Alignment;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.style.AlignmentSpan;
-import android.text.style.BackgroundColorSpan;
-import android.text.style.BulletSpan;
-import android.text.style.ClickableSpan;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.ImageSpan;
-import android.text.style.LeadingMarginSpan;
-import android.text.style.MaskFilterSpan;
-import android.text.style.QuoteSpan;
-import android.text.style.RelativeSizeSpan;
-import android.text.style.ScaleXSpan;
-import android.text.style.StrikethroughSpan;
-import android.text.style.StyleSpan;
-import android.text.style.SubscriptSpan;
-import android.text.style.SuperscriptSpan;
-import android.text.style.TypefaceSpan;
-import android.text.style.URLSpan;
-import android.text.style.UnderlineSpan;
-
-import androidx.annotation.ColorInt;
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import static android.graphics.BlurMaskFilter.Blur;
+import android.graphics.Bitmap
+import android.graphics.BlurMaskFilter
+import android.graphics.Typeface
+import android.graphics.drawable.Drawable
+import android.net.Uri
+import android.text.Layout
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.AlignmentSpan
+import android.text.style.BackgroundColorSpan
+import android.text.style.BulletSpan
+import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.ImageSpan
+import android.text.style.LeadingMarginSpan
+import android.text.style.MaskFilterSpan
+import android.text.style.QuoteSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.ScaleXSpan
+import android.text.style.StrikethroughSpan
+import android.text.style.StyleSpan
+import android.text.style.SubscriptSpan
+import android.text.style.SuperscriptSpan
+import android.text.style.TypefaceSpan
+import android.text.style.URLSpan
+import android.text.style.UnderlineSpan
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
 
 /**
  * <pre>
- *     author: Blankj
- *     blog  : http://blankj.com
- *     time  : 16/12/13
- *     desc  : SpannableString相关工具类
- * </pre>
+ * author: Blankj
+ * blog  : http://blankj.com
+ * time  : 16/12/13
+ * desc  : SpannableString相关工具类
+</pre> *
  */
-public class SpannableStringUtils {
-
-    private SpannableStringUtils() {
-        throw new UnsupportedOperationException("u can't instantiate me...");
+class SpannableStringUtils
+private constructor() {
+    init {
+        throw UnsupportedOperationException("u can't instantiate me...")
     }
 
-    /**
-     * 获取建造者
-     *
-     * @param text 样式字符串文本
-     * @return {@link Builder}
-     */
-    public static Builder getBuilder(@NonNull CharSequence text) {
-        return new Builder(text);
-    }
+    class Builder(private var text: CharSequence) {
+        private val defaultValue = 0x12000000
+        private var flag: Int
 
-    public static class Builder {
-
-        private int defaultValue = 0x12000000;
-        private CharSequence text;
-
-        private int flag;
         @ColorInt
-        private int foregroundColor;
+        private var foregroundColor: Int
+
         @ColorInt
-        private int backgroundColor;
+        private var backgroundColor: Int
+
         @ColorInt
-        private int quoteColor;
+        private var quoteColor: Int
+        private var isLeadingMargin = false
+        private var first = 0
+        private var rest = 0
+        private var isBullet = false
+        private var gapWidth = 0
+        private var bulletColor = 0
+        private var proportion: Float
+        private var xProportion: Float
+        private var isStrikethrough = false
+        private var isUnderline = false
+        private var isSuperscript = false
+        private var isSubscript = false
+        private var isBold = false
+        private var isItalic = false
+        private var isBoldItalic = false
+        private var fontFamily: String? = null
+        private var align: Layout.Alignment? = null
+        private var imageIsBitmap = false
+        private var bitmap: Bitmap? = null
+        private var imageIsDrawable = false
+        private var drawable: Drawable? = null
+        private var imageIsUri = false
+        private var uri: Uri? = null
+        private var imageIsResourceId = false
 
-        private boolean isLeadingMargin;
-        private int     first;
-        private int     rest;
-
-        private boolean isBullet;
-        private int     gapWidth;
-        private int     bulletColor;
-
-        private float     proportion;
-        private float     xProportion;
-        private boolean   isStrikethrough;
-        private boolean   isUnderline;
-        private boolean   isSuperscript;
-        private boolean   isSubscript;
-        private boolean   isBold;
-        private boolean   isItalic;
-        private boolean   isBoldItalic;
-        private String    fontFamily;
-        private Alignment align;
-
-        private boolean  imageIsBitmap;
-        private Bitmap   bitmap;
-        private boolean  imageIsDrawable;
-        private Drawable drawable;
-        private boolean  imageIsUri;
-        private Uri      uri;
-        private boolean  imageIsResourceId;
         @DrawableRes
-        private int      resourceId;
+        private var resourceId = 0
+        private var clickSpan: ClickableSpan? = null
+        private var url: String? = null
+        private var isBlur = false
+        private var radius = 0f
+        private var style: BlurMaskFilter.Blur? = null
+        private val mBuilder: SpannableStringBuilder
 
-        private ClickableSpan clickSpan;
-        private String        url;
-
-        private boolean isBlur;
-        private float   radius;
-        private Blur    style;
-
-        private SpannableStringBuilder mBuilder;
-
-
-        private Builder(@NonNull CharSequence text) {
-            this.text = text;
-            flag = Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
-            foregroundColor = defaultValue;
-            backgroundColor = defaultValue;
-            quoteColor = defaultValue;
-            proportion = -1;
-            xProportion = -1;
-            mBuilder = new SpannableStringBuilder();
+        init {
+            flag = Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            foregroundColor = defaultValue
+            backgroundColor = defaultValue
+            quoteColor = defaultValue
+            proportion = -1f
+            xProportion = -1f
+            mBuilder = SpannableStringBuilder()
         }
 
         /**
          * 设置标识
          *
-         * @param flag <ul>
-         *             <li>{@link Spanned#SPAN_INCLUSIVE_EXCLUSIVE}</li>
-         *             <li>{@link Spanned#SPAN_INCLUSIVE_INCLUSIVE}</li>
-         *             <li>{@link Spanned#SPAN_EXCLUSIVE_EXCLUSIVE}</li>
-         *             <li>{@link Spanned#SPAN_EXCLUSIVE_INCLUSIVE}</li>
-         *             </ul>
-         * @return {@link Builder}
+         * @param flag
+         *  * [Spanned.SPAN_INCLUSIVE_EXCLUSIVE]
+         *  * [Spanned.SPAN_INCLUSIVE_INCLUSIVE]
+         *  * [Spanned.SPAN_EXCLUSIVE_EXCLUSIVE]
+         *  * [Spanned.SPAN_EXCLUSIVE_INCLUSIVE]
+         *
+         * @return [Builder]
          */
-        public Builder setFlag(int flag) {
-            this.flag = flag;
-            return this;
+        fun setFlag(flag: Int): Builder {
+            this.flag = flag
+            return this
         }
 
         /**
          * 设置前景色
          *
          * @param color 前景色
-         * @return {@link Builder}
+         * @return [Builder]
          */
-        public Builder setForegroundColor(@ColorInt int color) {
-            this.foregroundColor = color;
-            return this;
+        fun setForegroundColor(@ColorInt color: Int): Builder {
+            foregroundColor = color
+            return this
         }
 
         /**
          * 设置背景色
          *
          * @param color 背景色
-         * @return {@link Builder}
+         * @return [Builder]
          */
-        public Builder setBackgroundColor(@ColorInt int color) {
-            this.backgroundColor = color;
-            return this;
+        fun setBackgroundColor(@ColorInt color: Int): Builder {
+            backgroundColor = color
+            return this
         }
 
         /**
          * 设置引用线的颜色
          *
          * @param color 引用线的颜色
-         * @return {@link Builder}
+         * @return [Builder]
          */
-        public Builder setQuoteColor(@ColorInt int color) {
-            this.quoteColor = color;
-            return this;
+        fun setQuoteColor(@ColorInt color: Int): Builder {
+            quoteColor = color
+            return this
         }
 
         /**
@@ -176,13 +153,13 @@ public class SpannableStringUtils {
          *
          * @param first 首行缩进
          * @param rest  剩余行缩进
-         * @return {@link Builder}
+         * @return [Builder]
          */
-        public Builder setLeadingMargin(int first, int rest) {
-            this.first = first;
-            this.rest = rest;
-            isLeadingMargin = true;
-            return this;
+        fun setLeadingMargin(first: Int, rest: Int): Builder {
+            this.first = first
+            this.rest = rest
+            isLeadingMargin = true
+            return this
         }
 
         /**
@@ -190,242 +167,246 @@ public class SpannableStringUtils {
          *
          * @param gapWidth 列表标记和文字间距离
          * @param color    列表标记的颜色
-         * @return {@link Builder}
+         * @return [Builder]
          */
-        public Builder setBullet(int gapWidth, int color) {
-            this.gapWidth = gapWidth;
-            bulletColor = color;
-            isBullet = true;
-            return this;
+        fun setBullet(gapWidth: Int, color: Int): Builder {
+            this.gapWidth = gapWidth
+            bulletColor = color
+            isBullet = true
+            return this
         }
 
         /**
          * 设置字体比例
          *
          * @param proportion 比例
-         * @return {@link Builder}
+         * @return [Builder]
          */
-        public Builder setProportion(float proportion) {
-            this.proportion = proportion;
-            return this;
+        fun setProportion(proportion: Float): Builder {
+            this.proportion = proportion
+            return this
         }
 
         /**
          * 设置字体横向比例
          *
          * @param proportion 比例
-         * @return {@link Builder}
+         * @return [Builder]
          */
-        public Builder setXProportion(float proportion) {
-            this.xProportion = proportion;
-            return this;
+        fun setXProportion(proportion: Float): Builder {
+            xProportion = proportion
+            return this
         }
 
         /**
          * 设置删除线
          *
-         * @return {@link Builder}
+         * @return [Builder]
          */
-        public Builder setStrikethrough() {
-            this.isStrikethrough = true;
-            return this;
+        fun setStrikethrough(): Builder {
+            isStrikethrough = true
+            return this
         }
 
         /**
          * 设置下划线
          *
-         * @return {@link Builder}
+         * @return [Builder]
          */
-        public Builder setUnderline() {
-            this.isUnderline = true;
-            return this;
+        fun setUnderline(): Builder {
+            isUnderline = true
+            return this
         }
 
         /**
          * 设置上标
          *
-         * @return {@link Builder}
+         * @return [Builder]
          */
-        public Builder setSuperscript() {
-            this.isSuperscript = true;
-            return this;
+        fun setSuperscript(): Builder {
+            isSuperscript = true
+            return this
         }
 
         /**
          * 设置下标
          *
-         * @return {@link Builder}
+         * @return [Builder]
          */
-        public Builder setSubscript() {
-            this.isSubscript = true;
-            return this;
+        fun setSubscript(): Builder {
+            isSubscript = true
+            return this
         }
 
         /**
          * 设置粗体
          *
-         * @return {@link Builder}
+         * @return [Builder]
          */
-        public Builder setBold() {
-            isBold = true;
-            return this;
+        fun setBold(): Builder {
+            isBold = true
+            return this
         }
 
         /**
          * 设置斜体
          *
-         * @return {@link Builder}
+         * @return [Builder]
          */
-        public Builder setItalic() {
-            isItalic = true;
-            return this;
+        fun setItalic(): Builder {
+            isItalic = true
+            return this
         }
 
         /**
          * 设置粗斜体
          *
-         * @return {@link Builder}
+         * @return [Builder]
          */
-        public Builder setBoldItalic() {
-            isBoldItalic = true;
-            return this;
+        fun setBoldItalic(): Builder {
+            isBoldItalic = true
+            return this
         }
 
         /**
          * 设置字体
          *
          * @param fontFamily 字体
-         *                   <ul>
-         *                   <li>monospace</li>
-         *                   <li>serif</li>
-         *                   <li>sans-serif</li>
-         *                   </ul>
-         * @return {@link Builder}
+         *
+         *  * monospace
+         *  * serif
+         *  * sans-serif
+         *
+         * @return [Builder]
          */
-        public Builder setFontFamily(@Nullable String fontFamily) {
-            this.fontFamily = fontFamily;
-            return this;
+        fun setFontFamily(fontFamily: String?): Builder {
+            this.fontFamily = fontFamily
+            return this
         }
 
         /**
          * 设置对齐
          *
          * @param align 对其方式
-         *              <ul>
-         *              <li>{@link Alignment#ALIGN_NORMAL}正常</li>
-         *              <li>{@link Alignment#ALIGN_OPPOSITE}相反</li>
-         *              <li>{@link Alignment#ALIGN_CENTER}居中</li>
-         *              </ul>
-         * @return {@link Builder}
+         *
+         *  * [Alignment.ALIGN_NORMAL]正常
+         *  * [Alignment.ALIGN_OPPOSITE]相反
+         *  * [Alignment.ALIGN_CENTER]居中
+         *
+         * @return [Builder]
          */
-        public Builder setAlign(@Nullable Alignment align) {
-            this.align = align;
-            return this;
+        fun setAlign(align: Layout.Alignment?): Builder {
+            this.align = align
+            return this
         }
 
         /**
          * 设置图片
          *
          * @param bitmap 图片位图
-         * @return {@link Builder}
+         * @return [Builder]
          */
-        public Builder setBitmap(@NonNull Bitmap bitmap) {
-            this.bitmap = bitmap;
-            imageIsBitmap = true;
-            return this;
+        fun setBitmap(bitmap: Bitmap): Builder {
+            this.bitmap = bitmap
+            imageIsBitmap = true
+            return this
         }
 
         /**
          * 设置图片
          *
          * @param drawable 图片资源
-         * @return {@link Builder}
+         * @return [Builder]
          */
-        public Builder setDrawable(@NonNull Drawable drawable) {
-            this.drawable = drawable;
-            imageIsDrawable = true;
-            return this;
+        fun setDrawable(drawable: Drawable): Builder {
+            this.drawable = drawable
+            imageIsDrawable = true
+            return this
         }
 
         /**
          * 设置图片
          *
          * @param uri 图片uri
-         * @return {@link Builder}
+         * @return [Builder]
          */
-        public Builder setUri(@NonNull Uri uri) {
-            this.uri = uri;
-            imageIsUri = true;
-            return this;
+        fun setUri(uri: Uri): Builder {
+            this.uri = uri
+            imageIsUri = true
+            return this
         }
 
         /**
          * 设置图片
          *
          * @param resourceId 图片资源id
-         * @return {@link Builder}
+         * @return [Builder]
          */
-        public Builder setResourceId(@DrawableRes int resourceId) {
-            this.resourceId = resourceId;
-            imageIsResourceId = true;
-            return this;
+        fun setResourceId(@DrawableRes resourceId: Int): Builder {
+            this.resourceId = resourceId
+            imageIsResourceId = true
+            return this
         }
 
         /**
          * 设置点击事件
-         * <p>需添加view.setMovementMethod(LinkMovementMethod.getInstance())</p>
+         *
+         * 需添加view.setMovementMethod(LinkMovementMethod.getInstance())
          *
          * @param clickSpan 点击事件
-         * @return {@link Builder}
+         * @return [Builder]
          */
-        public Builder setClickSpan(@NonNull ClickableSpan clickSpan) {
-            this.clickSpan = clickSpan;
-            return this;
+        fun setClickSpan(clickSpan: ClickableSpan): Builder {
+            this.clickSpan = clickSpan
+            return this
         }
 
         /**
          * 设置超链接
-         * <p>需添加view.setMovementMethod(LinkMovementMethod.getInstance())</p>
+         *
+         * 需添加view.setMovementMethod(LinkMovementMethod.getInstance())
          *
          * @param url 超链接
-         * @return {@link Builder}
+         * @return [Builder]
          */
-        public Builder setUrl(@NonNull String url) {
-            this.url = url;
-            return this;
+        fun setUrl(url: String): Builder {
+            this.url = url
+            return this
         }
 
         /**
          * 设置模糊
-         * <p>尚存bug，其他地方存在相同的字体的话，相同字体出现在之前的话那么就不会模糊，出现在之后的话那会一起模糊</p>
-         * <p>推荐还是把所有字体都模糊这样使用</p>
+         *
+         * 尚存bug，其他地方存在相同的字体的话，相同字体出现在之前的话那么就不会模糊，出现在之后的话那会一起模糊
+         *
+         * 推荐还是把所有字体都模糊这样使用
          *
          * @param radius 模糊半径（需大于0）
-         * @param style  模糊样式<ul>
-         *               <li>{@link Blur#NORMAL}</li>
-         *               <li>{@link Blur#SOLID}</li>
-         *               <li>{@link Blur#OUTER}</li>
-         *               <li>{@link Blur#INNER}</li>
-         *               </ul>
-         * @return {@link Builder}
+         * @param style  模糊样式
+         *  * [Blur.NORMAL]
+         *  * [Blur.SOLID]
+         *  * [Blur.OUTER]
+         *  * [Blur.INNER]
+         *
+         * @return [Builder]
          */
-        public Builder setBlur(float radius, Blur style) {
-            this.radius = radius;
-            this.style = style;
-            this.isBlur = true;
-            return this;
+        fun setBlur(radius: Float, style: BlurMaskFilter.Blur?): Builder {
+            this.radius = radius
+            this.style = style
+            isBlur = true
+            return this
         }
 
         /**
          * 追加样式字符串
          *
          * @param text 样式字符串文本
-         * @return {@link Builder}
+         * @return [Builder]
          */
-        public Builder append(@NonNull CharSequence text) {
-            setSpan();
-            this.text = text;
-            return this;
+        fun append(text: CharSequence): Builder {
+            setSpan()
+            this.text = text
+            return this
         }
 
         /**
@@ -433,114 +414,126 @@ public class SpannableStringUtils {
          *
          * @return 样式字符串
          */
-        public SpannableStringBuilder create() {
-            setSpan();
-            return mBuilder;
+        fun create(): SpannableStringBuilder {
+            setSpan()
+            return mBuilder
         }
 
         /**
          * 设置样式
          */
-        private void setSpan() {
-            int start = mBuilder.length();
-            mBuilder.append(this.text);
-            int end = mBuilder.length();
+        private fun setSpan() {
+            val start = mBuilder.length
+            mBuilder.append(text)
+            val end = mBuilder.length
             if (foregroundColor != defaultValue) {
-                mBuilder.setSpan(new ForegroundColorSpan(foregroundColor), start, end, flag);
-                foregroundColor = defaultValue;
+                mBuilder.setSpan(ForegroundColorSpan(foregroundColor), start, end, flag)
+                foregroundColor = defaultValue
             }
             if (backgroundColor != defaultValue) {
-                mBuilder.setSpan(new BackgroundColorSpan(backgroundColor), start, end, flag);
-                backgroundColor = defaultValue;
+                mBuilder.setSpan(BackgroundColorSpan(backgroundColor), start, end, flag)
+                backgroundColor = defaultValue
             }
             if (isLeadingMargin) {
-                mBuilder.setSpan(new LeadingMarginSpan.Standard(first, rest), start, end, flag);
-                isLeadingMargin = false;
+                mBuilder.setSpan(LeadingMarginSpan.Standard(first, rest), start, end, flag)
+                isLeadingMargin = false
             }
             if (quoteColor != defaultValue) {
-                mBuilder.setSpan(new QuoteSpan(quoteColor), start, end, 0);
-                quoteColor = defaultValue;
+                mBuilder.setSpan(QuoteSpan(quoteColor), start, end, 0)
+                quoteColor = defaultValue
             }
             if (isBullet) {
-                mBuilder.setSpan(new BulletSpan(gapWidth, bulletColor), start, end, 0);
-                isBullet = false;
+                mBuilder.setSpan(BulletSpan(gapWidth, bulletColor), start, end, 0)
+                isBullet = false
             }
-            if (proportion != -1) {
-                mBuilder.setSpan(new RelativeSizeSpan(proportion), start, end, flag);
-                proportion = -1;
+            if (proportion != -1f) {
+                mBuilder.setSpan(RelativeSizeSpan(proportion), start, end, flag)
+                proportion = -1f
             }
-            if (xProportion != -1) {
-                mBuilder.setSpan(new ScaleXSpan(xProportion), start, end, flag);
-                xProportion = -1;
+            if (xProportion != -1f) {
+                mBuilder.setSpan(ScaleXSpan(xProportion), start, end, flag)
+                xProportion = -1f
             }
             if (isStrikethrough) {
-                mBuilder.setSpan(new StrikethroughSpan(), start, end, flag);
-                isStrikethrough = false;
+                mBuilder.setSpan(StrikethroughSpan(), start, end, flag)
+                isStrikethrough = false
             }
             if (isUnderline) {
-                mBuilder.setSpan(new UnderlineSpan(), start, end, flag);
-                isUnderline = false;
+                mBuilder.setSpan(UnderlineSpan(), start, end, flag)
+                isUnderline = false
             }
             if (isSuperscript) {
-                mBuilder.setSpan(new SuperscriptSpan(), start, end, flag);
-                isSuperscript = false;
+                mBuilder.setSpan(SuperscriptSpan(), start, end, flag)
+                isSuperscript = false
             }
             if (isSubscript) {
-                mBuilder.setSpan(new SubscriptSpan(), start, end, flag);
-                isSubscript = false;
+                mBuilder.setSpan(SubscriptSpan(), start, end, flag)
+                isSubscript = false
             }
             if (isBold) {
-                mBuilder.setSpan(new StyleSpan(Typeface.BOLD), start, end, flag);
-                isBold = false;
+                mBuilder.setSpan(StyleSpan(Typeface.BOLD), start, end, flag)
+                isBold = false
             }
             if (isItalic) {
-                mBuilder.setSpan(new StyleSpan(Typeface.ITALIC), start, end, flag);
-                isItalic = false;
+                mBuilder.setSpan(StyleSpan(Typeface.ITALIC), start, end, flag)
+                isItalic = false
             }
             if (isBoldItalic) {
-                mBuilder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), start, end, flag);
-                isBoldItalic = false;
+                mBuilder.setSpan(StyleSpan(Typeface.BOLD_ITALIC), start, end, flag)
+                isBoldItalic = false
             }
             if (fontFamily != null) {
-                mBuilder.setSpan(new TypefaceSpan(fontFamily), start, end, flag);
-                fontFamily = null;
+                mBuilder.setSpan(TypefaceSpan(fontFamily), start, end, flag)
+                fontFamily = null
             }
             if (align != null) {
-                mBuilder.setSpan(new AlignmentSpan.Standard(align), start, end, flag);
-                align = null;
+                mBuilder.setSpan(AlignmentSpan.Standard(align!!), start, end, flag)
+                align = null
             }
             if (imageIsBitmap || imageIsDrawable || imageIsUri || imageIsResourceId) {
                 if (imageIsBitmap) {
-                    mBuilder.setSpan(new ImageSpan(Utils.getContext(), bitmap), start, end, flag);
-                    bitmap = null;
-                    imageIsBitmap = false;
+                    mBuilder.setSpan(ImageSpan(Utils.getContext(), bitmap!!), start, end, flag)
+                    bitmap = null
+                    imageIsBitmap = false
                 } else if (imageIsDrawable) {
-                    mBuilder.setSpan(new ImageSpan(drawable), start, end, flag);
-                    drawable = null;
-                    imageIsDrawable = false;
+                    mBuilder.setSpan(ImageSpan(drawable!!), start, end, flag)
+                    drawable = null
+                    imageIsDrawable = false
                 } else if (imageIsUri) {
-                    mBuilder.setSpan(new ImageSpan(Utils.getContext(), uri), start, end, flag);
-                    uri = null;
-                    imageIsUri = false;
+                    mBuilder.setSpan(ImageSpan(Utils.getContext(), uri!!), start, end, flag)
+                    uri = null
+                    imageIsUri = false
                 } else {
-                    mBuilder.setSpan(new ImageSpan(Utils.getContext(), resourceId), start, end, flag);
-                    resourceId = 0;
-                    imageIsResourceId = false;
+                    mBuilder.setSpan(ImageSpan(Utils.getContext(), resourceId), start, end, flag)
+                    resourceId = 0
+                    imageIsResourceId = false
                 }
             }
             if (clickSpan != null) {
-                mBuilder.setSpan(clickSpan, start, end, flag);
-                clickSpan = null;
+                mBuilder.setSpan(clickSpan, start, end, flag)
+                clickSpan = null
             }
             if (url != null) {
-                mBuilder.setSpan(new URLSpan(url), start, end, flag);
-                url = null;
+                mBuilder.setSpan(URLSpan(url), start, end, flag)
+                url = null
             }
             if (isBlur) {
-                mBuilder.setSpan(new MaskFilterSpan(new BlurMaskFilter(radius, style)), start, end, flag);
-                isBlur = false;
+                mBuilder.setSpan(MaskFilterSpan(BlurMaskFilter(radius, style)), start, end, flag)
+                isBlur = false
             }
-            flag = Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
+            flag = Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        }
+    }
+
+    companion object {
+        /**
+         * 获取建造者
+         *
+         * @param text 样式字符串文本
+         * @return [Builder]
+         */
+        fun getBuilder(text: CharSequence): Builder {
+            return Builder(text)
         }
     }
 }

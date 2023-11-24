@@ -1,172 +1,165 @@
-package com.chad.baserecyclerviewadapterhelper.activity.multi;
+package com.chad.baserecyclerviewadapterhelper.activity.multi
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
-import com.chad.baserecyclerviewadapterhelper.R;
-import com.chad.baserecyclerviewadapterhelper.base.BaseActivity;
-import com.chad.baserecyclerviewadapterhelper.databinding.ActivityMultipleItemUseBinding;
-import com.chad.baserecyclerviewadapterhelper.databinding.ItemImgTextViewBinding;
-import com.chad.baserecyclerviewadapterhelper.databinding.ItemMovieBinding;
-import com.chad.baserecyclerviewadapterhelper.entity.ContentEntity;
-import com.chad.baserecyclerviewadapterhelper.entity.ImageEntity;
-import com.chad.baserecyclerviewadapterhelper.entity.Movie;
-import com.chad.baserecyclerviewadapterhelper.entity.MoviePresenter;
-import com.chad.baserecyclerviewadapterhelper.entity.Video;
-import com.chad.baserecyclerviewadapterhelper.utils.Tips;
-import com.chad.library.adapter.base.BaseBinderAdapter;
-import com.chad.library.adapter.base.binder.BaseItemBinder;
-import com.chad.library.adapter.base.binder.QuickDataBindingItemBinder;
-import com.chad.library.adapter.base.binder.QuickItemBinder;
-import com.chad.library.adapter.base.binder.QuickViewBindingItemBinder;
-import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.chad.baserecyclerviewadapterhelper.R
+import com.chad.baserecyclerviewadapterhelper.base.BaseActivity
+import com.chad.baserecyclerviewadapterhelper.databinding.ActivityMultipleItemUseBinding
+import com.chad.baserecyclerviewadapterhelper.databinding.ItemImgTextViewBinding
+import com.chad.baserecyclerviewadapterhelper.databinding.ItemMovieBinding
+import com.chad.baserecyclerviewadapterhelper.entity.ContentEntity
+import com.chad.baserecyclerviewadapterhelper.entity.ImageEntity
+import com.chad.baserecyclerviewadapterhelper.entity.Movie
+import com.chad.baserecyclerviewadapterhelper.entity.MoviePresenter
+import com.chad.baserecyclerviewadapterhelper.entity.Video
+import com.chad.baserecyclerviewadapterhelper.utils.Tips.show
+import com.chad.library.adapter.base.BaseBinderAdapter
+import com.chad.library.adapter.base.binder.BaseItemBinder
+import com.chad.library.adapter.base.binder.QuickDataBindingItemBinder
+import com.chad.library.adapter.base.binder.QuickItemBinder
+import com.chad.library.adapter.base.binder.QuickViewBindingItemBinder
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import java.util.Random
 
 /**
  * @author: limuyang
  * @date: 2019-12-04
  * @Description:
  */
-public class BinderUseActivity extends BaseActivity {
-
+class BinderUseActivity : BaseActivity() {
     // 可以直接快速使用，也可以继承BaseBinderAdapter类，重写自己的相关方法
-    private BaseBinderAdapter adapter = new BaseBinderAdapter();
-
-    private ActivityMultipleItemUseBinding binding;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivityMultipleItemUseBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        setTitle("BaseMultiItemQuickAdapter");
-        setBackBtn();
-
-        initRv();
+    private val adapter = BaseBinderAdapter()
+    private var binding: ActivityMultipleItemUseBinding? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMultipleItemUseBinding.inflate(
+            layoutInflater
+        )
+        setContentView(binding!!.getRoot())
+        setTitle("BaseMultiItemQuickAdapter")
+        setBackBtn()
+        initRv()
     }
 
-    private void initRv() {
+    private fun initRv() {
 
         // 添加 itemBinder, 各种创建方式如下
-        adapter.addItemBinder(ImageEntity.class, new ImageItemBinder()) // QuickItemBinder
-                .addItemBinder(Video.class, new ImageTextItemBinder(), new ImageTextItemBinder.Differ()) // QuickViewBindingItemBinder, 并且注册了 Diff
-                .addItemBinder(Movie.class, new MovieItemBinder()) // QuickDataBindingItemBinder
-                .addItemBinder(ContentEntity.class, new ContentItemBinder()); // BaseItemBinder
-
-        View headView = getLayoutInflater().inflate(R.layout.head_view, null, false);
-        headView.findViewById(R.id.iv).setVisibility(View.GONE);
-        headView.setOnClickListener(v -> Tips.show("HeaderView"));
-        adapter.setHeaderView(headView);
-
-        binding.rvList.setLayoutManager(new LinearLayoutManager(this));
-        binding.rvList.setAdapter(adapter);
+        adapter.addItemBinder(
+            ImageEntity::class.java,
+            ImageItemBinder()
+        ) // QuickItemBinder
+            .addItemBinder(
+                Video::class.java,
+                ImageTextItemBinder(),
+                ImageTextItemBinder.Differ()
+            ) // QuickViewBindingItemBinder, 并且注册了 Diff
+            .addItemBinder(
+                Movie::class.java,
+                MovieItemBinder()
+            ) // QuickDataBindingItemBinder
+            .addItemBinder(
+                ContentEntity::class.java,
+                ContentItemBinder()
+            ) // BaseItemBinder
+        val headView = layoutInflater.inflate(R.layout.head_view, null, false)
+        headView.findViewById<View>(R.id.iv).visibility = View.GONE
+        headView.setOnClickListener { show("HeaderView") }
+        adapter.setHeaderView(headView)
+        binding!!.rvList.setLayoutManager(LinearLayoutManager(this))
+        binding!!.rvList.setAdapter(adapter)
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        Random random = new Random();
+    override fun onStart() {
+        super.onStart()
+        val random = Random()
 
         // 模拟设置数据，数据顺序随意组合
-        List<Object> data = new ArrayList<>();
-        data.add(new ImageEntity());
-        data.add(new ImageEntity());
-        data.add(new Video(1, "", "Video 1"));
-        data.add(new Video(2, "", "Video 2"));
-        data.add(new Movie("Chad 1", 0, random.nextInt(5) + 10, "He was one of Australia's most distinguished artistes"));
-        data.add(new ImageEntity());
-        data.add(new Movie("Chad 2", 0, random.nextInt(5) + 10, "This movie is exciting"));
-        data.add(new ImageEntity());
-        data.add(new Video(3, "", "Video 3"));
-        data.add(new Video(4, "", "Video 4"));
-        data.add(new ContentEntity("Content 1"));
-        data.add(new ContentEntity("Content 2"));
+        val data: MutableList<Any> = ArrayList()
+        data.add(ImageEntity())
+        data.add(ImageEntity())
+        data.add(Video(1, "", "Video 1"))
+        data.add(Video(2, "", "Video 2"))
+        data.add(
+            Movie(
+                "Chad 1",
+                0,
+                random.nextInt(5) + 10,
+                "He was one of Australia's most distinguished artistes"
+            )
+        )
+        data.add(ImageEntity())
+        data.add(Movie("Chad 2", 0, random.nextInt(5) + 10, "This movie is exciting"))
+        data.add(ImageEntity())
+        data.add(Video(3, "", "Video 3"))
+        data.add(Video(4, "", "Video 4"))
+        data.add(ContentEntity("Content 1"))
+        data.add(ContentEntity("Content 2"))
 
         // 设置新数据
-        adapter.setList(data);
+        adapter.setList(data)
 
         // 延迟3秒以后执行，模拟Diff刷新数据
-        binding.rvList.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // 模拟需要 Diff 的新数据
-                // 先拷贝出数据
-                List<Object> data = new ArrayList<>(adapter.getData());
+        binding!!.rvList.postDelayed({ // 模拟需要 Diff 的新数据
+            // 先拷贝出数据
+            val data: MutableList<Any> = ArrayList(adapter.items)
 
-                // 修改数据
-                data.add(0, new ImageEntity());
-                data.add(2, new Video(8, "", "new Video 1.1"));
-                data.add(new ImageEntity());
+            // 修改数据
+            data.add(0, ImageEntity())
+            data.add(2, Video(8, "", "new Video 1.1"))
+            data.add(ImageEntity())
 
 
-                // 使用 diif 刷新数据
-                adapter.setDiffNewData(data);
-            }
-        }, 3000);
+            // 使用 diif 刷新数据
+            adapter.setDiffNewData(data)
+        }, 3000)
     }
 
     /**
      * 使用 layout，快速创建Binder
      */
-    private final static class ImageItemBinder extends QuickItemBinder<ImageEntity> {
-
-        @Override
-        public int getLayoutId() {
-            return R.layout.item_image_view;
+    private class ImageItemBinder : QuickItemBinder<ImageEntity>() {
+        override fun getLayoutId(): Int {
+            return R.layout.item_image_view
         }
 
-        @Override
-        public void convert(@NotNull BaseViewHolder holder, ImageEntity data) {
-        }
-
-        @Override
-        public void onClick(@NotNull BaseViewHolder holder, @NotNull View view, ImageEntity data, int position) {
-            Toast.makeText(getContext(), "click index: " + position, Toast.LENGTH_SHORT).show();
+        override fun convert(holder: BaseViewHolder, items: ImageEntity) {}
+        override fun onClick(holder: BaseViewHolder, view: View, data: ImageEntity, position: Int) {
+            Toast.makeText(context, "click index: $position", Toast.LENGTH_SHORT).show()
         }
     }
 
     /**
      * 使用 ViewBinding，快速创建Binder
      */
-    private final static class ImageTextItemBinder extends QuickViewBindingItemBinder<Video, ItemImgTextViewBinding> {
-
-        @NotNull
-        @Override
-        public ItemImgTextViewBinding onCreateViewBinding(@NotNull LayoutInflater layoutInflater, @NotNull ViewGroup parent, int viewType) {
-            return ItemImgTextViewBinding.inflate(layoutInflater, parent, false);
+    private class ImageTextItemBinder :
+        QuickViewBindingItemBinder<Video, ItemImgTextViewBinding>() {
+        override fun onCreateViewBinding(
+            layoutInflater: LayoutInflater,
+            parent: ViewGroup,
+            viewType: Int
+        ): ItemImgTextViewBinding {
+            return ItemImgTextViewBinding.inflate(layoutInflater, parent, false)
         }
 
-        @Override
-        public void convert(@NotNull BinderVBHolder<ItemImgTextViewBinding> holder, Video data) {
-            holder.getViewBinding().tv.setText("(ViewBinding) " + data.getName());
+        override fun convert(holder: BinderVBHolder<ItemImgTextViewBinding>, items: Video) {
+            holder.viewBinding.tv.text = "(ViewBinding) ${items.name}"
         }
 
         /**
          * 如果需要 Diff，可以自行实现如下内容
          */
-        public static class Differ extends DiffUtil.ItemCallback<Video> {
-            @Override
-            public boolean areItemsTheSame(@NonNull Video oldItem, @NonNull Video newItem) {
-                return oldItem.getId() == newItem.getId();
+        class Differ : DiffUtil.ItemCallback<Video>() {
+            override fun areItemsTheSame(oldItem: Video, newItem: Video): Boolean {
+                return oldItem.id == newItem.id
             }
 
-            @Override
-            public boolean areContentsTheSame(@NonNull Video oldItem, @NonNull Video newItem) {
-                return oldItem.getName().equals(newItem.getName());
+            override fun areContentsTheSame(oldItem: Video, newItem: Video): Boolean {
+                return oldItem.name == newItem.name
             }
         }
     }
@@ -174,39 +167,36 @@ public class BinderUseActivity extends BaseActivity {
     /**
      * 使用 DataBinding，快速创建Binder
      */
-    private final static class MovieItemBinder extends QuickDataBindingItemBinder<Movie, ItemMovieBinding> {
-
-        private MoviePresenter mPresenter = new MoviePresenter();
-
-        @NotNull
-        @Override
-        public ItemMovieBinding onCreateDataBinding(@NotNull LayoutInflater layoutInflater, @NotNull ViewGroup parent, int viewType) {
-            return ItemMovieBinding.inflate(layoutInflater, parent, false);
+    private class MovieItemBinder : QuickDataBindingItemBinder<Movie, ItemMovieBinding>() {
+        private val mPresenter = MoviePresenter()
+        override fun onCreateDataBinding(
+            layoutInflater: LayoutInflater,
+            parent: ViewGroup,
+            viewType: Int
+        ): ItemMovieBinding {
+            return ItemMovieBinding.inflate(layoutInflater, parent, false)
         }
 
-        @Override
-        public void convert(@NotNull BinderDataBindingHolder<ItemMovieBinding> holder, Movie data) {
-            ItemMovieBinding binding = holder.getDataBinding();
-            binding.setMovie(data);
-            binding.setPresenter(mPresenter);
-            binding.executePendingBindings();
+        override fun convert(holder: BinderDataBindingHolder<ItemMovieBinding>, items: Movie) {
+            val binding = holder.dataBinding
+            binding.setMovie(items)
+            binding.setPresenter(mPresenter)
+            binding.executePendingBindings()
         }
     }
 
     /**
      * 使用最基础的 BaseItemBinder 创建 Binder
      */
-    private static class ContentItemBinder extends BaseItemBinder<ContentEntity, BaseViewHolder> {
-        @NotNull
-        @Override
-        public BaseViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_text_view, parent, false);
-            return new BaseViewHolder(view);
+    private class ContentItemBinder : BaseItemBinder<ContentEntity, BaseViewHolder>() {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+            val view =
+                LayoutInflater.from(parent.context).inflate(R.layout.item_text_view, parent, false)
+            return BaseViewHolder(view)
         }
 
-        @Override
-        public void convert(@NotNull BaseViewHolder holder, ContentEntity data) {
-            holder.setText(R.id.tv, data.getContent());
+        override fun convert(holder: BaseViewHolder, items: ContentEntity) {
+            holder.setText(R.id.tv, items.content)
         }
     }
 }

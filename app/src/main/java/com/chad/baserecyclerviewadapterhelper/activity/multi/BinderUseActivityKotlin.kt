@@ -85,7 +85,7 @@ class BinderUseActivityKotlin : BaseActivity() {
         binding.rvList.postDelayed({
             // 模拟需要 Diff 的新数据
             // 先拷贝出数据
-            val data: MutableList<Any> = ArrayList(adapter.data)
+            val data: MutableList<Any> = ArrayList(adapter.items)
 
             // 修改数据
             data.add(0, ImageEntity())
@@ -108,7 +108,7 @@ class BinderUseActivityKotlin : BaseActivity() {
             return R.layout.item_image_view
         }
 
-        override fun convert(holder: BaseViewHolder, data: ImageEntity) {
+        override fun convert(holder: BaseViewHolder, items: ImageEntity) {
             // 设置数据
         }
 
@@ -128,8 +128,8 @@ class BinderUseActivityKotlin : BaseActivity() {
             return ItemImgTextViewBinding.inflate(layoutInflater, parent, false)
         }
 
-        override fun convert(holder: BinderVBHolder<ItemImgTextViewBinding>, data: Video) {
-            holder.viewBinding.tv.text = data.name
+        override fun convert(holder: BinderVBHolder<ItemImgTextViewBinding>, items: Video) {
+            holder.viewBinding.tv.text = items.name
         }
 
         /**
@@ -155,9 +155,9 @@ class BinderUseActivityKotlin : BaseActivity() {
             return ItemMovieBinding.inflate(layoutInflater, parent, false)
         }
 
-        override fun convert(holder: BinderDataBindingHolder<ItemMovieBinding>, data: Movie) {
+        override fun convert(holder: BinderDataBindingHolder<ItemMovieBinding>, items: Movie) {
             val binding = holder.dataBinding
-            binding.movie = data
+            binding.movie = items
             binding.presenter = mPresenter
             binding.executePendingBindings()
         }
@@ -172,8 +172,8 @@ class BinderUseActivityKotlin : BaseActivity() {
             return BaseViewHolder(view)
         }
 
-        override fun convert(holder: BaseViewHolder, data: ContentEntity) {
-            holder.setText(R.id.tv, data.content)
+        override fun convert(holder: BaseViewHolder, items: ContentEntity) {
+            holder.setText(R.id.tv, items.content)
         }
     }
 }

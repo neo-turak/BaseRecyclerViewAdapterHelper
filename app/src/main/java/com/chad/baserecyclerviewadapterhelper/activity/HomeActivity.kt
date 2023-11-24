@@ -31,7 +31,7 @@ class HomeActivity : AppCompatActivity(), OnItemClickListener {
     }
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
-        val item = adapter.data[position] as HomeEntity
+        val item = adapter.items[position] as HomeEntity
         if (!item.isHeader) {
             startActivity(Intent(this@HomeActivity, item.activity))
         }
