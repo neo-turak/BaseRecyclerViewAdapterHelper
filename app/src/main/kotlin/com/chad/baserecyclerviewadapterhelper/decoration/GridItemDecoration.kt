@@ -1,49 +1,50 @@
-package com.chad.baserecyclerviewadapterhelper.decoration;
+package com.chad.baserecyclerviewadapterhelper.decoration
 
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Rect
+import android.graphics.drawable.Drawable
+import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 
 /**
  * https://github.com/CymChad/BaseRecyclerViewAdapterHelper
  */
-public class GridItemDecoration extends RecyclerView.ItemDecoration {
+class GridItemDecoration : ItemDecoration {
+    private var dividerDrawable: Drawable?
+    private var orientation = LinearLayoutManager.VERTICAL
 
-    private Drawable dividerDrawable;
-    private int orientation = LinearLayoutManager.VERTICAL;
-
-    public GridItemDecoration(Drawable divider) {
-        dividerDrawable = divider;
+    constructor(divider: Drawable?) {
+        dividerDrawable = divider
     }
 
-    public GridItemDecoration(Context context, int resId) {
-        dividerDrawable = context.getResources().getDrawable(resId);
+    constructor(context: Context, resId: Int) {
+        dividerDrawable = context.resources.getDrawable(resId)
     }
 
-    public GridItemDecoration(Context context, int resId, int orientation) {
-        dividerDrawable = context.getResources().getDrawable(resId);
-        this.orientation = orientation;
+    constructor(context: Context, resId: Int, orientation: Int) {
+        dividerDrawable = context.resources.getDrawable(resId)
+        this.orientation = orientation
     }
 
-    @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
         if (dividerDrawable == null) {
-            return;
+            return
         }
-
         if (parent.getChildLayoutPosition(view) < 1) {
-            return;
+            return
         }
-
         if (orientation == LinearLayoutManager.VERTICAL) {
-            outRect.top = dividerDrawable.getIntrinsicHeight();
+            outRect.top = dividerDrawable!!.intrinsicHeight
         } else if (orientation == LinearLayoutManager.HORIZONTAL) {
-            outRect.left = dividerDrawable.getIntrinsicWidth();
+            outRect.left = dividerDrawable!!.intrinsicWidth
         }
     }
 
@@ -52,32 +53,26 @@ public class GridItemDecoration extends RecyclerView.ItemDecoration {
      * @param parent
      * @param state
      */
-    @Override
-    public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
+    override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         if (dividerDrawable == null) {
-            return;
+            return
         }
-
-        int childCount = parent.getChildCount();
-        int rightV = parent.getWidth();
-        for (int i = 0; i < childCount; i++) {
-            View child = parent.getChildAt(i);
-            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
-
-            int leftV = parent.getPaddingLeft() + child.getPaddingLeft();
-            int bottomV = child.getTop() - params.topMargin;
-            int topV = bottomV - dividerDrawable.getIntrinsicHeight();
-
-            int topH = child.getTop() + params.topMargin;
-            int bottomH = child.getBottom() + params.bottomMargin;
-            int rightH = child.getLeft() - params.leftMargin;
-            int leftH = rightH - dividerDrawable.getIntrinsicWidth();
-            dividerDrawable.setBounds(leftH, topH, rightH, bottomH);
-            dividerDrawable.draw(c);
-            dividerDrawable.setBounds(leftV, topV, rightV, bottomV);
-            dividerDrawable.draw(c);
+        val childCount = parent.childCount
+        val rightV = parent.width
+        for (i in 0 until childCount) {
+            val child = parent.getChildAt(i)
+            val params = child.layoutParams as RecyclerView.LayoutParams
+            val leftV = parent.getPaddingLeft() + child.getPaddingLeft()
+            val bottomV = child.top - params.topMargin
+            val topV = bottomV - dividerDrawable!!.intrinsicHeight
+            val topH = child.top + params.topMargin
+            val bottomH = child.bottom + params.bottomMargin
+            val rightH = child.left - params.leftMargin
+            val leftH = rightH - dividerDrawable!!.intrinsicWidth
+            dividerDrawable!!.setBounds(leftH, topH, rightH, bottomH)
+            dividerDrawable!!.draw(c)
+            dividerDrawable!!.setBounds(leftV, topV, rightV, bottomV)
+            dividerDrawable!!.draw(c)
         }
     }
-
-
 }

@@ -12,13 +12,12 @@
  *
  */
 
-package com.tawarim.library.base
+package com.chad.library.adapter.base
 
 import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
-import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.entity.MultiItemEntity
 
 /**

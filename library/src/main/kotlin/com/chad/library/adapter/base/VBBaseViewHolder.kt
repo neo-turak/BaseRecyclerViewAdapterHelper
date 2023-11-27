@@ -12,7 +12,7 @@
  *
  */
 
-package com.tawarim.library.base
+package com.chad.library.adapter.base
 
 import androidx.viewbinding.ViewBinding
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
@@ -24,5 +24,5 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
  * Description:
  **/
 
-class VBBaseViewHolder<VB : ViewBinding>(val binding: VB) : BaseViewHolder(binding.root) {
+class VBBaseViewHolder<VB : ViewBinding>(private val binding: VB) : BaseViewHolder(binding.root) {
 }

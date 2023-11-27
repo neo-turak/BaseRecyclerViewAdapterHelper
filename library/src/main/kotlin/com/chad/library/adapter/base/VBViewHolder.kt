@@ -12,7 +12,7 @@
  *
  */
 
-package com.tawarim.library.base
+package com.chad.library.adapter.base
 
 import android.view.View
 import androidx.viewbinding.ViewBinding

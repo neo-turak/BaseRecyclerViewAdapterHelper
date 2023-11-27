@@ -17,8 +17,8 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
  * @param VH : BaseViewHolder
  * @constructor
  */
-abstract class BaseMultiItemQuickAdapter<T : MultiItemEntity, VH : BaseViewHolder>(data: MutableList<T>? = null)
-    : BaseQuickAdapter<T, VH>(0, data) {
+abstract class BaseMultiItemQuickAdapter<T : MultiItemEntity, VH : BaseViewHolder>(items: MutableList<T>? = null)
+    : BaseQuickAdapter<T, VH>(0, items) {
 
     private val layouts: SparseIntArray by lazy(LazyThreadSafetyMode.NONE) { SparseIntArray() }
 

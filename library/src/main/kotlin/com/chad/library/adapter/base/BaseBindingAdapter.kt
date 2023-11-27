@@ -17,7 +17,6 @@ package com.chad.library.adapter.base
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
-import com.tawarim.library.base.VBViewHolder
 import java.lang.reflect.ParameterizedType
 
 
