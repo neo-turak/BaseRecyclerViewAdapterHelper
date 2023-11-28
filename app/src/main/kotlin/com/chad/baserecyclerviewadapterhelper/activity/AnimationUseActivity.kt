@@ -46,7 +46,6 @@ class AnimationUseActivity : AppCompatActivity() {
         mAnimationAdapter = AnimationAdapter()
         mAnimationAdapter.animationEnable = true
         val mFirstPageItemCount = 3
-        //        mAnimationAdapter.setNotDoAnimationCount(mFirstPageItemCount);
         mAnimationAdapter.addChildClickViewIds(R.id.img, R.id.tweetName, R.id.tweetText)
         mAnimationAdapter.setOnItemChildClickListener(object : OnItemChildClickListener {
             override fun onItemChildClick(
@@ -67,7 +66,7 @@ class AnimationUseActivity : AppCompatActivity() {
                 }
             }
         })
-        mRecyclerView.setAdapter(mAnimationAdapter)
+        mRecyclerView.adapter = mAnimationAdapter
     }
 
     private fun initMenu() {

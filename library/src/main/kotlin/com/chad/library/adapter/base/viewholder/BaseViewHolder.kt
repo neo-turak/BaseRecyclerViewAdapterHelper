@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
  * ViewHolder 基类
  */
 @Keep
-open class BaseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+open class BaseViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
     /**
      * Views indexed with their IDs
      */
@@ -117,6 +117,7 @@ open class BaseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         return this
     }
 
+    open fun position() = position
 
 }
 
