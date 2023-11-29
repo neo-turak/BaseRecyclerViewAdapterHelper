@@ -7,32 +7,20 @@ Powerful and flexible RecyclerView Adapter,
 Please feel free to use this. (Welcome to **Star** and **Fork**)  
 
 强大而灵活的RecyclerView Adapter（欢迎 **Star** 和 **Fork**）
-
-
-​    
-新版4.x.x已发布 alpha 版本，完美兼容`ConcatAdapter`，解决了许多遗留问题，拆分了功能模块，BaseAdapter更加简洁干净。“多类型布局”更加灵活。向上、向下加载得到极大加强。
-v4版本已经上传 maven 中央仓库，不需要再引入三方仓库配置了。欢迎尝试。
-**注意，4.0为非兼容升级，建议在新项目尝试**
-```
-implementation "io.github.cymchad:BaseRecyclerViewAdapterHelper:4.0.0-beta12"
-```
-
-
-Of course, you can continue to use the [2.x](https://github.com/CymChad/BaseRecyclerViewAdapterHelper/tree/2.x) version.
-
-当然，你也可以继续使用[2.x](https://github.com/CymChad/BaseRecyclerViewAdapterHelper/tree/2.x) 版本、[3.x.x](https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/3.x/readme/0-BaseRecyclerViewAdapterHelper.md)版本。
+# 说明：
+这个是基于BaseRecyclerViewHelper的3.x版本做出的改动，我认为一个库的更新应该支持向下兼容的。  
+1.全部类转化成Kotlin，项目结构移动到Kotlin目录下(避免新版本AS展示Kotlin+android)。  
+2.重命名data对象到items. 因为data是在Kotlin内是预保留字段，不应该作为对象。  
+3.持续更新文档，保证文档更全面（主库找不到很多类的使用说明）。  
+4.对于内部方法的改进，补充低版本不兼容方法。  
+5.提交到Jitpack.io,下载快。
 
 # Document
 - English Writing ...
 - [3.0版本 中文](https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/3.x/readme/0-BaseRecyclerViewAdapterHelper.md)
-- [4.0版本 中文](https://github.com/CymChad/BaseRecyclerViewAdapterHelper/wiki)
 
-
-(由于各位项目成员工作较为繁忙，请各位同学谅解)
-
-## 4.x Demo
+## Demo
 [wiki](https://github.com/CymChad/BaseRecyclerViewAdapterHelper/wiki)
-
 
 # proguard-rules.pro
 > 此资源库自带混淆规则，并且会自动导入，正常情况下无需手动导入。
@@ -41,9 +29,7 @@ Of course, you can continue to use the [2.x](https://github.com/CymChad/BaseRecy
 > You can also go here to view [proguard-rules](https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/library/proguard-rules.pro)
 
 
-
-
 # Thanks  
+[CymChad/BaseRecyclerViewAdapterHelper](https://jitpack.io/#CymChad/BaseRecyclerViewAdapterHelper)
 [JoanZapata / base-adapter-helper](https://github.com/JoanZapata/base-adapter-helper)
-
 # [License](https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/LICENSE)
