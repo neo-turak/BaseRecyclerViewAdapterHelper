@@ -4,7 +4,7 @@ plugins {
     kotlin("android")
 }
 
-val versionName = "3.0.14"
+val versionName = "3.0.15"
 
 android {
     compileSdk = 31
@@ -48,8 +48,8 @@ android {
 
 dependencies {
     implementation("androidx.annotation:annotation:1.6.0")
-    implementation("androidx.recyclerview:recyclerview:1.3.0")
-    implementation("androidx.databinding:databinding-runtime:8.0.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("androidx.databinding:databinding-runtime:8.1.4")
 }
 
 

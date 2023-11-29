@@ -116,8 +116,5 @@ open class BaseViewHolder(private val view: View) : RecyclerView.ViewHolder(view
         getView<View>(viewId).isEnabled = isEnabled
         return this
     }
-
-    open fun position() = position
-
 }
 
