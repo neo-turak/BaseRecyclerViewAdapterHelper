@@ -4,7 +4,7 @@ plugins {
     kotlin("android")
 }
 
-val versionName = "3.0.17"
+val versionName = "3.0.18"
 
 android {
     compileSdk = 31
@@ -20,13 +20,7 @@ android {
         }
     }
 
-
     compileOptions {
-        kotlinOptions.freeCompilerArgs = ArrayList<String>().apply {
-            add("-module-name")
-            add("com.github.CymChad.brvah")
-            add("-Xjvm-default=all")
-        }
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -34,15 +28,6 @@ android {
         jvmTarget = "1.8"
     }
     namespace = "com.chad.library"
-
-
-    publishing {
-        singleVariant("release") {
-            // if you don't want sources/javadoc, remove these lines
-            withSourcesJar()
-            withJavadocJar()
-        }
-    }
 }
 
 
