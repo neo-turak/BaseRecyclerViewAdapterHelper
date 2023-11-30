@@ -47,13 +47,14 @@ replace the Tag with the new version.
 [wiki](https://github.com/CymChad/BaseRecyclerViewAdapterHelper/wiki)
 
 # proguard-rules.pro
-
+``
+-keep public class * extends com.chad.library.adapter.base.viewholder.BaseViewHolder
+-keepclassmembers  class **$** extends com.chad.library.adapter.base.viewholder.BaseViewHolder {
+<init>(...);
+}
+-keep class com.chad.library.adapter.base.viewholder.BaseDataBindingHolder {*;}
+``
 > 此资源库自带混淆规则，并且会自动导入，正常情况下无需手动导入。
-
-> The library comes with `proguard-rules.pro` rules and is automatically imported. Normally no
-> manual import is required.
-> You can also go here to
-> view [proguard-rules](https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/library/proguard-rules.pro)
 
 # Thanks
 
