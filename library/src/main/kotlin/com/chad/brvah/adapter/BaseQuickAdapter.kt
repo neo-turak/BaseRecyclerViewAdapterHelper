@@ -1335,18 +1335,45 @@ constructor(@LayoutRes private val layoutResId: Int,
         this.mSpanSizeLookup = spanSizeLookup
     }
 
+    /**
+     * 整个Item的点击事件。
+     */
     fun setOnItemClickListener(listener: OnItemClickListener?) {
         this.mOnItemClickListener = listener
     }
 
+    /**
+     * 整个Item的点击事件，通过Lambda
+     */
+   fun setOnItemClickListener(lambda: (BaseQuickAdapter<*, *>, View, Int) -> Unit) {
+        this.setOnItemClickListener(object : OnItemClickListener {
+            override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
+                lambda(adapter, view, position)
+            }
+        })
+    }
+    /**
+     * 长按事件。
+     */
     fun setOnItemLongClickListener(listener: OnItemLongClickListener?) {
         this.mOnItemLongClickListener = listener
     }
 
+    /**
+     * item的子类点击事件，
+     * 注：需要注册可点击的View.
+     */
     fun setOnItemChildClickListener(listener: OnItemChildClickListener?) {
         this.mOnItemChildClickListener = listener
     }
 
+    fun setOnItemChildClickListener(lambda: (BaseQuickAdapter<*, *>, View, Int) -> Unit) {
+        this.setOnItemChildClickListener(object : OnItemChildClickListener {
+            override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
+                lambda(adapter, view, position)
+            }
+        })
+    }
     fun setOnItemChildLongClickListener(listener: OnItemChildLongClickListener?) {
         this.mOnItemChildLongClickListener = listener
     }

@@ -298,6 +298,7 @@ open class BaseLoadMoreModule(private val baseQuickAdapter: BaseQuickAdapter<*, 
         isEnableLoadMore = true
     }
 
+
     /**
      * 重置状态
      */

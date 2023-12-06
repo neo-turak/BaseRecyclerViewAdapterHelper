@@ -48,10 +48,10 @@ replace the Tag with the new version.
 
 # proguard-rules.pro
 ``
--keep public class * extends com.chad.library.adapter.base.viewholder.BaseViewHolder
+-keep public class * extends com.chad.library.adapter.base.viewholder.BaseViewHolder  
 -keepclassmembers  class **$** extends com.chad.library.adapter.base.viewholder.BaseViewHolder {
 <init>(...);
-}
+}  
 -keep class com.chad.library.adapter.base.viewholder.BaseDataBindingHolder {*;}
 ``
 > 此资源库自带混淆规则，并且会自动导入，正常情况下无需手动导入。
