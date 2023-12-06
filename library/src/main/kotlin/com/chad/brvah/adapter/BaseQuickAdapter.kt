@@ -1207,7 +1207,19 @@ constructor(@LayoutRes private val layoutResId: Int,
         compatibilityDataSizeChanged(newData.size)
     }
 
-    open fun addData(@NonNull newData: Collection<T>) {
+    /**
+     * 替换item.
+     */
+   open fun setItem(position: Int, item: T) {
+        if (position in items.indices) {
+            items[position] = item
+            notifyItemChanged(position)
+        } else {
+            System.out.println("Index out of indices.")
+        }
+    }
+
+    open fun addData(newData: Collection<T>) {
         this.items.addAll(newData)
         notifyItemRangeInserted(this.items.size - newData.size + headerLayoutCount, newData.size)
         compatibilityDataSizeChanged(newData.size)
@@ -1358,6 +1370,7 @@ constructor(@LayoutRes private val layoutResId: Int,
     fun setOnItemLongClickListener(listener: OnItemLongClickListener?) {
         this.mOnItemLongClickListener = listener
     }
+
 
     /**
      * item的子类点击事件，
