@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.github.jitpack"
-version = "3.0.19"
+version = "3.0.20"
 
 android {
     compileSdk = 31
