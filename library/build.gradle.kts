@@ -5,8 +5,8 @@ plugins {
     id("maven-publish")
 }
 
-group = "com.github.jitpack"
-version = "3.0.20"
+val group = "com.github.jitpack"
+val version = "3.0.21"
 
 android {
     compileSdk = 31
@@ -38,7 +38,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.neo-turak"
                 artifactId = "BaseRecyclerViewAdapterHelper"
-                version = "3.0.19"
+                version = "${version}"
             }
         }
     }
